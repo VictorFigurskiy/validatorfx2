@@ -85,10 +85,18 @@ public class SeleniumChromeMailCaptchaService {
             System.out.println("Success! Mail box opened!");
 
             return true;
-
         } catch (TimeoutException e) {
+            try {
+                String firstNewLayoutLetterExceptMailRuPath = "//*[@class='dataset-letters']/div/div[1]/div/a/div[4]/div[4]/span[1]/span";
+                waitElement(firstNewLayoutLetterExceptMailRuPath, TIMEOUT_IN_SECONDS, loggedDriver);
 
-            throw new SeleniumException("Catch TimeoutException during opening mail box");
+                System.out.println("Success! Mail box opened!");
+
+                return true;
+            } catch (TimeoutException ex) {
+
+                throw new SeleniumException("Catch TimeoutException during opening mail box");
+            }
         } finally {
             loggedDriver.close();
             loggedDriver.quit();
@@ -162,9 +170,9 @@ public class SeleniumChromeMailCaptchaService {
             rest(WAIT_CAPTCHA_MANUAL_INPUT);
             boolean isCaptcha = loggedDriver.findElement(By.className("b-panel__content__desc")).getText().contains("Введите код с картинки, чтобы войти в аккаунт");
             if (isCaptcha) {
-                System.out.println("Captcha for "  + account.getEmailLogin() + " !!! Enter captcha in browser, please!");
-                try{
-                    InputStream inputStream = getClass().getResourceAsStream(getClass().getResource("/resourses/consequence.mp3").toURI().getPath());
+                System.out.println("Captcha for " + account.getEmailLogin() + " !!! Enter captcha in browser, please!");
+                try {
+                    InputStream inputStream = getClass().getResourceAsStream("/resources/bell.mp3");
                     AudioStream audioStream = new AudioStream(inputStream);
                     AudioPlayer.player.start(audioStream);
                 } catch (Exception ignore) {
