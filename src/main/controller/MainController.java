@@ -29,57 +29,26 @@ public class MainController {
 
     @FXML
     public AnchorPane rootPane;
-
-    @FXML
     public Pane mainPane;
-
-    @FXML
     public HBox mainHBox;
-
-    @FXML
     public Pane mainOperationPane;
-
-    @FXML
     public TextArea mainOuputTextArea;
-
-    @FXML
     public Button setAccountButton;
-
-    @FXML
     public Button getAccountButton;
-
-    @FXML
     public Button validateAccountButton;
-
-    @FXML
     public Button deleteBadAccountButton;
-
-    @FXML
     public Button deleteAllAccountButton;
-
-    @FXML
     public Button setProxiesButton;
-
-    @FXML
     public Button getProxiesButton;
-
-    @FXML
     public Button deleteBadProxiesButton;
-
-    @FXML
     public Button deleteAllProxiesButton;
-
-    @FXML
     public Button chooseProxiesButton;
-
-    @FXML
     public Button chooseAccountsButton;
-
-    @FXML
     public TextField proxyChooserTextField;
-
-    @FXML
     public TextField accountChooserTextField;
+    public Button validateFilteredAccountButton;
+    public TextField validateAccountFromTextArea;
+    public TextField validateAccountToTextArea;
 
     @Autowired
     private ProxyService proxyService;
@@ -155,7 +124,8 @@ public class MainController {
     }
 
     public void validateFilteredAccount() {
-        String from = StringUtils.EMPTY; String to = StringUtils.EMPTY;
+        String from = validateAccountFromTextArea.getText();
+        String to = validateAccountToTextArea.getText();
         int fromInt = 0;
         int toInt = 0;
         List<Account> accounts = mailValidationService.getAccounts();
@@ -174,28 +144,24 @@ public class MainController {
 
         if (fromInt != 0 || toInt != 0) {
             printToTextArea("Start validate accounts");
-            validateAccounts(accounts, 0, accounts.size());
+            validateAccounts(accounts, fromInt, toInt + 1);
         }
     }
 
-    public void validateAccounts(List<Account> accounts, int a, int b) {
+    private void validateAccounts(List<Account> accounts, int a, int b) {
         List<Account> validatedAccounts = new ArrayList<>();
-        //TODO
         for (int n = a; n < b; n++) {
             try {
                 Proxy proxy = mailValidationService.getProxy();
-                //TODO
-                printToTextArea("Start mail account validation for " + accounts.get(n).getEmailLogin() + " with proxies " + proxy);
                 boolean isValidated = seleniumChromeMailCaptchaService.validateMailAccount(accounts.get(n), proxy);
                 if (isValidated) {
                     validatedAccounts.add(accounts.get(n));
-                    //TODO
                     printToTextArea("Mail account " + accounts.get(n).getEmailLogin() + " successfully validated with proxies " + proxy);
+                } else {
+                    printToTextArea("Account " + accounts.get(n).getEmailLogin() + " was not validated with proxies " + proxy);
                 }
-                //TODO
-                printToTextArea("Mail account " + accounts.get(n).getEmailLogin() + " successfully validated with proxies " + proxy);
-            } catch (ProxyNotFoundException e) {
-                //TODO
+                } catch (ProxyNotFoundException e) {
+                printToTextArea("Account " + accounts.get(n).getEmailLogin() + " was not validated");
                 printToTextArea(e.getMessage());
             }
         }
