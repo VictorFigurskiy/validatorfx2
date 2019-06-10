@@ -7,12 +7,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import main.exceptions.ProxyNotFoundException;
 import main.model.Account;
 import main.model.Proxy;
 import main.service.FileService;
 import main.service.ValidationService;
 import main.service.dbservice.AccountService;
 import main.service.dbservice.ProxyService;
+import main.service.seleniumservice.MailValidationService;
+import main.service.seleniumservice.SeleniumChromeMailCaptchaService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -84,6 +88,12 @@ public class MainController {
     private AccountService accountService;
 
     @Autowired
+    private MailValidationService mailValidationService;
+
+    @Autowired
+    private SeleniumChromeMailCaptchaService seleniumChromeMailCaptchaService;
+
+    @Autowired
     private ValidationService validationService;
 
     @Autowired
@@ -138,10 +148,62 @@ public class MainController {
         accounts.forEach(account -> mainOuputTextArea.appendText(account.toString() + "\n"));
     }
 
-    public void validateAccounts()
-    {
-        validationService.run();
-        mainOuputTextArea.appendText("");
+    public void validateAllAccounts() {
+        printToTextArea("Start validate accounts");
+        List<Account> accounts = mailValidationService.getAccounts();
+        validateAccounts(accounts, 0, accounts.size());
+    }
+
+    public void validateFilteredAccount() {
+        String from = StringUtils.EMPTY; String to = StringUtils.EMPTY;
+        int fromInt = 0;
+        int toInt = 0;
+        List<Account> accounts = mailValidationService.getAccounts();
+        if (StringUtils.isNumeric(from) && StringUtils.isNumeric(to)) {
+            int tempFrom = Integer.valueOf(from);
+            int tempTo = Integer.valueOf(to);
+            if ((tempTo >= 0 && tempTo < accounts.size()) && (tempFrom >= 0 && tempFrom < accounts.size() && tempFrom <= tempTo)) {
+                fromInt = tempFrom;
+                toInt = tempTo;
+            } else {
+                mainOuputTextArea.appendText("Wrong \"from\" and \"to\" parameters");
+            }
+        } else {
+            mainOuputTextArea.appendText("Parameters should be numeric");
+        }
+
+        if (fromInt != 0 || toInt != 0) {
+            printToTextArea("Start validate accounts");
+            validateAccounts(accounts, 0, accounts.size());
+        }
+    }
+
+    public void validateAccounts(List<Account> accounts, int a, int b) {
+        List<Account> validatedAccounts = new ArrayList<>();
+        //TODO
+        for (int n = a; n < b; n++) {
+            try {
+                Proxy proxy = mailValidationService.getProxy();
+                //TODO
+                printToTextArea("Start mail account validation for " + accounts.get(n).getEmailLogin() + " with proxies " + proxy);
+                boolean isValidated = seleniumChromeMailCaptchaService.validateMailAccount(accounts.get(n), proxy);
+                if (isValidated) {
+                    validatedAccounts.add(accounts.get(n));
+                    //TODO
+                    printToTextArea("Mail account " + accounts.get(n).getEmailLogin() + " successfully validated with proxies " + proxy);
+                }
+                //TODO
+                printToTextArea("Mail account " + accounts.get(n).getEmailLogin() + " successfully validated with proxies " + proxy);
+            } catch (ProxyNotFoundException e) {
+                //TODO
+                printToTextArea(e.getMessage());
+            }
+        }
+        accountService.updateValidatedAccounts(validatedAccounts);
+    }
+
+    private void printToTextArea(String message) {
+        mainOuputTextArea.appendText(message + "\n");
     }
 
     public void deleteBadAccount()
