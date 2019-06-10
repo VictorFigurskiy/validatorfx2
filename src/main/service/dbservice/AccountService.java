@@ -121,5 +121,19 @@ public class AccountService {
         saveAll(badAccounts);
         deleteAllByCollection(badAccounts);
     }
+
+    @Transactional
+    public void updateValidatedAccounts(List<Account> validatedAccounts) {
+
+        List<Account> badAccounts = findAllInvalidAccounts();
+
+        for (Account validatedAccount : validatedAccounts) {
+
+            if(badAccounts.contains(validatedAccount)){
+                validatedAccount.setValid(true);
+            }
+        }
+        saveAll(badAccounts);
+    }
 }
 
