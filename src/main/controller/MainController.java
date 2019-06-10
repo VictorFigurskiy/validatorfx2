@@ -136,10 +136,10 @@ public class MainController {
                 fromInt = tempFrom;
                 toInt = tempTo;
             } else {
-                mainOuputTextArea.appendText("Wrong \"from\" and \"to\" parameters");
+                printToTextArea("Wrong \"from\" and \"to\" parameters");
             }
         } else {
-            mainOuputTextArea.appendText("Parameters should be numeric");
+            printToTextArea("Parameters should be numeric");
         }
 
         if (fromInt != 0 || toInt != 0) {
