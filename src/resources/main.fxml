@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.MainController">
+   <Pane fx:id="mainPane" prefHeight="73.0" prefWidth="800.0" style="-fx-background-color: gray;">
+      <children>
+         <ImageView fitHeight="73.0" fitWidth="800.0" pickOnBounds="true">
+            <image>
+               <Image url="@Van5g.gif" />
+            </image>
+            <effect>
+               <GaussianBlur />
+            </effect>
+         </ImageView>
+      </children></Pane>
+    <HBox fx:id="mainHBox" layoutY="73.0" prefHeight="527.0" prefWidth="800.0" style="-fx-background-color: darkgray;">
+      <children>
+         <Pane fx:id="mainOperationPane" prefHeight="527.0" prefWidth="349.0">
+            <children>
+               <TabPane layoutX="-3.0" layoutY="2.0" prefHeight="521.0" prefWidth="352.0" tabClosingPolicy="UNAVAILABLE">
+                 <tabs>
+                   <Tab text="Account">
+                     <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                 <VBox prefHeight="527.0" prefWidth="352.0">
+                                    <children>
+                                       <HBox prefHeight="19.0" prefWidth="346.0">
+                                          <children>
+                                             <Button fx:id="setAccountButton" mnemonicParsing="false" onAction="#setAccount" text="Set accounts">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                             <Button fx:id="chooseAccountsButton" mnemonicParsing="false" onAction="#chooseAccountsFile" text="Choose">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                             <TextField fx:id="accountChooserTextField" prefHeight="26.0" prefWidth="141.0">
+                                                <HBox.margin>
+                                                   <Insets top="10.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                          </children>
+                                       </HBox>
+                                       <Button fx:id="getAccountButton" mnemonicParsing="false" onAction="#getAccount" text="Get accounts">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <Button fx:id="deleteBadAccountButton" mnemonicParsing="false" onAction="#deleteBadAccount" text="Delete bad accounts">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <Button fx:id="deleteAllAccountButton" mnemonicParsing="false" onAction="#deleteAllAccount" text="Delete all accounts">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <Button fx:id="validateAccountButton" mnemonicParsing="false" onAction="#validateAccounts" style="-fx-background-color: red;" text="Validate accounts">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <HBox prefHeight="100.0" prefWidth="200.0">
+                                          <children>
+                                             <Button fx:id="validateFilteredAccountButton" mnemonicParsing="false" text="Validate accounts ...">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                             <TextField fx:id="validateAccountFromTextArea" prefHeight="26.0" prefWidth="55.0">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                             <TextField fx:id="validateAccountToTextArea" prefHeight="26.0" prefWidth="63.0">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                          </children>
+                                       </HBox>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </AnchorPane>
+                     </content>
+                   </Tab>
+                   <Tab text="Proxy">
+                     <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="494.0" prefWidth="241.0">
+                              <children>
+                                 <VBox layoutX="3.0" prefHeight="495.0" prefWidth="349.0">
+                                    <children>
+                                       <HBox prefHeight="24.0" prefWidth="349.0">
+                                          <children>
+                                             <Button fx:id="setProxiesButton" mnemonicParsing="false" onAction="#setProxies" text="Set proxies">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                             <Button fx:id="chooseProxiesButton" mnemonicParsing="false" onAction="#chooseProxiesFile" text="Choose">
+                                                <HBox.margin>
+                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                </HBox.margin>
+                                             </Button>
+                                             <TextField fx:id="proxyChooserTextField" prefHeight="26.0" prefWidth="147.0">
+                                                <HBox.margin>
+                                                   <Insets top="10.0" />
+                                                </HBox.margin>
+                                             </TextField>
+                                          </children>
+                                       </HBox>
+                                       <Button fx:id="getProxiesButton" mnemonicParsing="false" onAction="#getProxies" text="Get proxies">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <Button fx:id="deleteBadProxiesButton" mnemonicParsing="false" onAction="#deleteBadProxies" text="Delete bad proxies">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                       <Button fx:id="deleteAllProxiesButton" mnemonicParsing="false" onAction="#deleteAllProxies" text="Delete all proxies">
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                       </Button>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </AnchorPane>
+                     </content>
+                   </Tab>
+                 </tabs>
+               </TabPane>
+            </children>
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding></Pane>
+         <TextArea fx:id="mainOuputTextArea" prefHeight="527.0" prefWidth="455.0">
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding></TextArea>
+      </children>
+    </HBox>
+</AnchorPane>
